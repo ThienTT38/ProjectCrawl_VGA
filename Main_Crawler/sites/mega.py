@@ -126,8 +126,8 @@ def scrape_product_detail(driver, url):
 
 def crawl():
     category_url = "https://mega.com.vn/card-do-hoa"
-    print("Đang khởi động trình duyệt Chrome cho Mega...")
-    driver = get_driver()
+    print("Đang khởi động trình duyệt Chrome (Headless) cho Mega...")
+    driver = get_driver(headless=True)
     all_products_data = []
 
     SAVE_INTERVAL = 10

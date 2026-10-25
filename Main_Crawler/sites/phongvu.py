@@ -127,8 +127,8 @@ def scrape_product_detail(driver, url):
 
 def crawl():
     category_url = "https://phongvu.vn/c/vga-card-man-hinh"
-    print("Đang khởi động trình duyệt Chrome cho Phong Vũ...")
-    driver = get_driver()
+    print("Đang khởi động trình duyệt Chrome (Headless) cho Phong Vũ...")
+    driver = get_driver(headless=True)
     all_products_data = []
 
     SAVE_INTERVAL = 10

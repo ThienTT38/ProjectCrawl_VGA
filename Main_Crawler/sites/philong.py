@@ -132,8 +132,8 @@ def scrape_product_detail(driver, url):
 
 def crawl():
     category_url = "https://philong.com.vn/card-do-hoa.html"
-    print("Đang khởi động trình duyệt Chrome cho Phi Long...")
-    driver = get_driver()
+    print("Đang khởi động trình duyệt Chrome (Headless) cho Phi Long...")
+    driver = get_driver(headless=True)
     all_products_data = []
 
     SAVE_INTERVAL = 10

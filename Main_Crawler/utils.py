@@ -3,9 +3,10 @@ import time
 import pandas as pd
 from selenium import webdriver
 
-def get_driver():
+def get_driver(headless=True):
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless")  # Bỏ comment nếu muốn chạy ngầm
+    if headless:
+        options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--window-size=1920,1080")

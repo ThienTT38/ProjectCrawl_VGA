@@ -133,8 +133,8 @@ def scrape_product_detail(driver, url):
 def crawl():
     category_url = "https://sp-one.vn/vga-card-man-hinh/"
 
-    print("Đang khởi động trình duyệt Chrome cho SP-One...")
-    driver = get_driver()
+    print("Đang khởi động trình duyệt Chrome (Headless) cho SP-One...")
+    driver = get_driver(headless=True)
     all_products_data = []
 
     SAVE_INTERVAL = 10  

@@ -122,8 +122,8 @@ def scrape_product_detail(driver, url):
 
 def crawl():
     category_url = "https://www.buildcores.com/products/GPU"
-    print("Đang khởi động trình duyệt Chrome cho BuildCores...")
-    driver = get_driver()
+    print("Đang khởi động trình duyệt Chrome (Headless) cho BuildCores...")
+    driver = get_driver(headless=True)
     all_products_data = []
     SAVE_INTERVAL = 10
 
