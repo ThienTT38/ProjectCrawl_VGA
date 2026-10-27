@@ -1,1 +1,0 @@
-i love ronaldo portugal
