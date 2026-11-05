@@ -194,6 +194,3 @@ python ml_price_prediction.py
 
 ---
 
-## 👥 Tác giả & Đóng góp
-- **Tác giả:** ThienTT38 (tranthanhthien792@gmail.com)
-- **Kho lưu trữ:** [https://github.com/ThienTT38/ProjectCrawl_VGA](https://github.com/ThienTT38/ProjectCrawl_VGA)
