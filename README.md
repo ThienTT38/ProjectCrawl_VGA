@@ -5,7 +5,6 @@
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-v1.4%2B-orange.svg)](https://scikit-learn.org/)
 [![Pydantic](https://img.shields.io/badge/Pydantic-v2.7%2B-red.svg)](https://docs.pydantic.dev/)
 [![SQLite](https://img.shields.io/badge/SQLite-v3.40%2B-lightgrey.svg)](https://sqlite.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
@@ -354,10 +353,3 @@ python crawlers/crawl_mega.py
 python crawlers/crawl_philong.py
 python crawlers/crawl_buildcores.py
 ```
-
----
-
-## 7. License and Terms of Use
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
-All scraped distributor data is used strictly for academic research and educational modeling purposes.
