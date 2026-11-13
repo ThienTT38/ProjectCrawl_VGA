@@ -9,7 +9,6 @@
 
 **Author:** Tran Thanh Thien ([@ThienTT38](https://github.com/ThienTT38))  
 **Repository:** [https://github.com/ThienTT38/ProjectCrawl_VGA](https://github.com/ThienTT38/ProjectCrawl_VGA)  
-**Technical Reports:** [English Technical Report (PDF)](file:///D:/vga-crawler/Project_Technical_Report_VGA.pdf) | [Vietnamese Technical Report (PDF)](file:///D:/vga-crawler/BaoCao_KyThuat_VGA_TiengViet.pdf)
 
 ---
 
