@@ -1,5 +1,5 @@
-# VGA Price Intelligence and Time-Series Forecasting Platform
-### An End-to-End System for Multi-Source Scraping, Data Engineering, Hardware Specification Harmonization, and Machine Learning Valuation
+# VGA Price Prediction and Market Intelligence Platform
+### An End-to-End System for Multi-Source Scraping, Hardware Specification Harmonization, and Machine Learning VGA Price Prediction
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-v1.4%2B-orange.svg)](https://scikit-learn.org/)
@@ -7,25 +7,33 @@
 [![SQLite](https://img.shields.io/badge/SQLite-v3.40%2B-lightgrey.svg)](https://sqlite.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+**Author:** Tran Thanh Thien ([@ThienTT38](https://github.com/ThienTT38))  
+**Repository:** [https://github.com/ThienTT38/ProjectCrawl_VGA](https://github.com/ThienTT38/ProjectCrawl_VGA)  
+**Technical Reports:** [English Technical Report (PDF)](file:///D:/vga-crawler/Project_Technical_Report_VGA.pdf) | [Vietnamese Technical Report (PDF)](file:///D:/vga-crawler/BaoCao_KyThuat_VGA_TiengViet.pdf)
 
 ---
 
 ## 1. Executive Summary and Objectives
 
-The graphics processing unit (GPU/VGA) retail market in Vietnam is characterized by high price volatility, fragmented seller disclosures, multi-currency imports, and non-standardized hardware naming conventions. This project establishes an automated, production-grade data intelligence pipeline designed to:
+The graphics processing unit (GPU/VGA) retail market in Vietnam is characterized by high price volatility, fragmented seller disclosures, multi-currency imports, and non-standardized hardware naming conventions. This project establishes an automated, production-grade data intelligence and machine learning framework designed for two distinct predictive objectives:
 
-1. **Ingest Multi-Source Retail and Hardware Data:** Extract comprehensive GPU listings from Vietnamese authorized distributors (Phong Vu, Mega Technology, Phi Long) and international hardware repositories (BuildCores Open Database, TechPowerUp).
-2. **Standardize and Harmonize Schemas:** Resolve messy product titles, irregular VRAM/bus descriptions, and non-standardized brand naming using robust regex parsers, deterministic SHA-256 SKU identifiers, and strict Pydantic data contract validation.
-3. **Execute Transparent Multi-Tier Imputation:** Address missing pricing attributes through a tiered hierarchical imputation engine (Tiers 1 to 5), maintaining a strict distinction between observed market prices and simulated estimations via provenance tracking.
-4. **Model Retail Pricing Realism:** Normalize prices to Vietnamese psychological retail pricing standards (Charm Pricing ending in `...90,000 VND`) while preserving authentic distributor discounts and original strike-through prices.
-5. **Construct Verified Time-Series Panels:** Maintain a clean 3-week longitudinal dataset and an isolated ground-truth observed price tracking dataset without synthetic inflation.
-6. **Implement Leakage-Free Machine Learning Valuation:** Train multivariate linear, bagging, and boosting algorithms with rigorous train-test isolation and GroupKFold cross-validation, evaluating on ground-truth observed retail prices.
+1. **Cross-Sectional Specification-Based Price Prediction (Fair Value Estimation):** Estimating the fair retail price of any graphics card based strictly on its underlying hardware specifications (VRAM capacity, memory type, bus width, shader cores, clock frequency, TDP, brand, and cooling tier).
+2. **Time-Series Price Forecasting (Longitudinal Trajectory):** Tracking weekly price changes across a 3-week longitudinal panel to forecast price trajectories and detect promotional anomalies.
+3. **Automated Deal Valuation:** Classifying retail listings into `GOOD_DEAL` (discounted by >5% below predicted fair value), `FAIR_PRICE` (within +/- 5%), or `OVERPRICED` (>5% above predicted fair value).
+
+### Core Pipeline Capabilities
+- **Multi-Source Web Scraping:** Automated ingestion from Vietnamese distributors (Phong Vu, Mega Technology, Phi Long) and international hardware databases (BuildCores Open Database, TechPowerUp).
+- **Deterministic Identifier Generation:** Elimination of database primary key collisions via full 16-character SHA-256 URL hashing.
+- **Specification Extraction:** Parsing complex hardware parameters, including float-safe CUDA core count extraction (correcting `2944.0` to 2,944 cores without order-of-magnitude corruption).
+- **Data Provenance Separation:** Transparent labeling of observed retail transactions (`ACTUAL_STORE_RETAIL`) versus tiered imputation (`IMPUTED_TIER_1` to `IMPUTED_TIER_5`).
+- **Retail Realism Engine:** Preservation of 352 authentic retailer discounts while standardizing missing estimates to Vietnamese retail charm pricing (`...90,000 VND`).
+- **Leakage-Free ML Modeling:** Encapsulation of all transformations within Scikit-Learn pipelines fitted strictly on training folds, evaluated on ground-truth observed retail prices.
 
 ---
 
 ## 2. End-to-End Pipeline Architecture
 
-The system follows a modular, feed-forward architecture across six specialized processing stages:
+The system follows a modular feed-forward architecture across six specialized processing stages:
 
 ```mermaid
 flowchart TD
@@ -95,12 +103,12 @@ flowchart TD
         wide & long_ts --> db
     end
 
-    subgraph S6["6. MACHINE LEARNING & VALUATION"]
+    subgraph S6["6. VGA PRICE PREDICTION & VALUATION"]
         direction TB
-        feats["Feature Engineering (Lags, Momentum, Volatility)"]
-        models["Ensemble Model Training (Gradient Boosting / RF)<br/>Observed Ground-Truth R² = 94.63% | MAE = 3.10M VND"]
-        pred["Next-Week Valuation Prediction"]
-        deal["Valuation Audit (GOOD_DEAL / FAIR / OVERPRICED)"]
+        feats["Feature Engineering (Hardware Specs, Lags, Cooling Tier)"]
+        models["Ensemble Model Training (Random Forest / Gradient Boosting)<br/>Observed Ground-Truth R² = 94.63% | MAE = 3.10M VND"]
+        pred["VGA Price Prediction Engine (predict_custom_vga)"]
+        deal["Valuation Audit (GOOD_DEAL / FAIR_PRICE / OVERPRICED)"]
         wide --> feats --> models --> pred --> deal
     end
 ```
@@ -139,8 +147,8 @@ ProjectCrawl_VGA/
 │   ├── clean_realism_prices.py # Stage 4: Retail realism & Charm Pricing
 │   ├── build_3weeks_dataset.py # Stage 5: Multi-week longitudinal panel builder
 │   └── refresh_normalized_baseline.py # Normalized baseline synchronizer
-├── ml/                        # Machine Learning valuation and modeling
-│   └── ml_price_prediction.py # Leakage-free ML training & GroupKFold cross-validation
+├── ml/                        # VGA Price Prediction and valuation modeling
+│   └── ml_price_prediction.py # Leakage-free ML training, inference & GroupKFold validation
 ├── tests/                     # Automated test and verification suite
 │   ├── test_vga_crawler.py    # Unit tests for SKU hashing, parsers, and schemas
 │   └── verify_all_fixes.py    # Comprehensive audit validating all 10 critique items
@@ -164,7 +172,6 @@ ProjectCrawl_VGA/
 │
 ├── main.py                    # Unified CLI command orchestrator
 ├── requirements.txt           # Pinned production dependency manifest
-└── README.md                  # Project documentation and reproduction guide
 └── README.md                  # Comprehensive project documentation
 ```
 
@@ -189,17 +196,17 @@ The platform has been audited against all 10 priority scientific and data engine
 
 ---
 
-## 5. Machine Learning Methodology and Empirical Results
+## 5. VGA Price Prediction: Machine Learning Methodology and Empirical Results
 
-### Algorithms Implemented
-1. **Regularized Linear Regression (Ridge / Lasso):** Serves as an interpretable parametric baseline to evaluate linear relationships between hardware attributes and market valuations.
-2. **Random Forest Regressor:** Employs bootstrap aggregation (Bagging) across 100 randomized decision trees to capture high-order nonlinearities without overfitting.
-3. **Gradient Boosting Regressor:** Sequentially constructs shallow decision trees, optimizing squared error loss through gradient descent to fit complex market valuation curves.
+### Modeling Approaches
+1. **Regularized Linear Regression (Ridge / Lasso):** Serves as an interpretable parametric baseline evaluating linear contributions of hardware specifications to market valuation.
+2. **Random Forest Regressor:** Uses bootstrap aggregation (Bagging) across 100 decision trees to capture nonlinear hardware interactions without overfitting.
+3. **Gradient Boosting Regressor:** Sequentially fits shallow regression trees on negative gradients, delivering optimal performance on high-dimensional tabular data.
 
 ### Quantitative Benchmark Results
 
-#### Evaluation on Ground-Truth Observed Retail Prices (588 Domestic Products)
-Evaluated strictly on independent, un-imputed domestic retail prices to measure real-world pricing fidelity:
+#### Benchmark 1: Evaluation on Ground-Truth Observed Retail Prices (588 Domestic Products)
+Evaluated strictly on genuine, un-imputed domestic retail prices extracted directly from Vietnamese storefronts:
 
 | Model Architecture | Coefficient of Determination ($R^2$) | Mean Absolute Error (MAE) | Mean Absolute Percentage Error (MAPE) |
 | :--- | :---: | :---: | :---: |
@@ -207,7 +214,7 @@ Evaluated strictly on independent, un-imputed domestic retail prices to measure 
 | **Gradient Boosting Regressor** | 93.85% | 3,342,109 VND | 14.22% |
 | **Ridge Linear Regression** | 85.12% | 5,120,440 VND | 22.45% |
 
-#### Evaluation on Full Stratified Test Partition (860 Products)
+#### Benchmark 2: Evaluation on Full Stratified Test Partition (860 Products)
 Evaluated with zero data leakage across all catalog tiers:
 
 | Model Architecture | Coefficient of Determination ($R^2$) | Mean Absolute Error (MAE) | Root Mean Squared Error (RMSE) |
@@ -216,14 +223,61 @@ Evaluated with zero data leakage across all catalog tiers:
 | **Gradient Boosting Regressor** | 96.94% | 2,246,808 VND | 4,596,256 VND |
 | **Ridge Linear Regression** | 89.28% | 3,842,506 VND | 8,610,612 VND |
 
-#### Generalization Across Unseen GPU Architectures (5-Fold GroupKFold by `gpu_model`)
-Evaluated across isolated GPU models to test model capacity when pricing previously unseen hardware generations:
+#### Benchmark 3: Out-of-Distribution Generalization on Unseen GPU Models (5-Fold GroupKFold)
+Evaluated across isolated GPU models to test model capacity when predicting prices for newly released silicon architectures:
 
 | Model Architecture | GroupKFold Mean $R^2$ | Standard Deviation |
 | :--- | :---: | :---: |
 | **Gradient Boosting Regressor** | **67.19%** | **+/- 11.45%** |
 | **Random Forest Regressor** | 63.24% | +/- 13.82% |
 | **Linear Regression** | 52.80% | +/- 16.10% |
+
+### Live Inference Demo: Predicting Custom VGA Prices
+
+The trained model serialized at `output/vga_price_predictor.joblib` enables real-time price estimation for any graphics card configuration:
+
+```python
+from ml.ml_price_prediction import predict_custom_vga
+
+# Example 1: Predict price for mainstream 1080p GPU
+price_4060 = predict_custom_vga(
+    gpu_model="RTX 4060",
+    brand="ASUS",
+    vram_gb=8,
+    vram_type="GDDR6",
+    fan_count=2,
+    tdp_watts=115,
+    cuda_cores=3072,
+)
+print(f"ASUS RTX 4060 8GB Predicted Price: {price_4060:,.0f} VND")
+# Output: 9,438,000 VND
+
+# Example 2: Predict price for high-end 1440p/4K GPU
+price_4070s = predict_custom_vga(
+    gpu_model="RTX 4070 SUPER",
+    brand="MSI",
+    vram_gb=12,
+    vram_type="GDDR6X",
+    fan_count=2,
+    tdp_watts=220,
+    cuda_cores=7168,
+)
+print(f"MSI RTX 4070 SUPER 12GB Predicted Price: {price_4070s:,.0f} VND")
+# Output: 21,070,000 VND
+
+# Example 3: Predict price for flagship workstation/gaming GPU
+price_5090 = predict_custom_vga(
+    gpu_model="RTX 5090",
+    brand="ASUS",
+    vram_gb=32,
+    vram_type="GDDR7",
+    fan_count=3,
+    tdp_watts=500,
+    cuda_cores=21760,
+)
+print(f"ASUS RTX 5090 32GB Predicted Price: {price_5090:,.0f} VND")
+# Output: 172,606,000 VND
+```
 
 ---
 
@@ -269,18 +323,22 @@ python pipeline/clean_realism_prices.py
 python pipeline/build_3weeks_dataset.py
 ```
 
-### Step 3: Train Machine Learning Models and Valuate Listings
-Train the leakage-free models and generate downstream price valuation recommendations:
+### Step 3: Run VGA Price Prediction (Training, Evaluation & Valuation)
+Train the leakage-free models, evaluate against ground-truth benchmarks, and export fair-value valuations:
 
 ```bash
 python ml/ml_price_prediction.py
 ```
+This generates:
+- Serialized production predictor: `output/vga_price_predictor.joblib`
+- Market-wide valuation analysis: `output/vga_ml_predictions_valuation.csv`
+- Relational database valuation table: `vga_ml_valuations` in `output/vga_catalog_cleaned.db`
 
 ### Step 4: Run Automated Verification and Unit Tests
 Execute the verification suite to independently validate all data integrity constraints and bug fixes:
 
 ```bash
-# Run unit test suite
+# Run unit test suite (12 tests)
 python -m unittest discover -s tests -v
 
 # Run scientific critique verification audit (Validates all 10 critique items)
@@ -305,5 +363,5 @@ python crawlers/crawl_buildcores.py
 
 ## 7. License and Terms of Use
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
 All scraped distributor data is used strictly for academic research and educational modeling purposes.
