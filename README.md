@@ -7,8 +7,6 @@
 [![SQLite](https://img.shields.io/badge/SQLite-v3.40%2B-lightgrey.svg)](https://sqlite.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Author:** Tran Thanh Thien ([@ThienTT38](https://github.com/ThienTT38))  
-
 ---
 
 ## 1. Executive Summary and Objectives
