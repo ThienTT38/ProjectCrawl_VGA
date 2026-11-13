@@ -1,0 +1,46 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Testing & Type checks
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# IDE & OS specific
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary & Archive Junk
+*.zip
+*.rar
+*.7z
+*.bak
+*.tmp
+*.temp
+
+# Document & Report formats
+*.docx
+*.pdf
+*.tex
+*.bib
+
+# Large uncleaned raw SQLite database (>80MB exceeds recommended GitHub threshold)
+output/vga_catalog.db
+
+# Log files
+*.log
