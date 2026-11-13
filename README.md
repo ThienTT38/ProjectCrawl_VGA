@@ -8,7 +8,6 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **Author:** Tran Thanh Thien ([@ThienTT38](https://github.com/ThienTT38))  
-**Repository:** [https://github.com/ThienTT38/ProjectCrawl_VGA](https://github.com/ThienTT38/ProjectCrawl_VGA)  
 
 ---
 
